@@ -16,9 +16,6 @@
 
 package net.simonvt.datepicker;
 
-import net.simonvt.calendarview.CalendarView;
-import net.simonvt.numberpicker.NumberPicker;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -42,9 +39,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.simonvt.calendarview.CalendarView;
+import net.simonvt.numberpicker.NumberPicker;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -407,7 +406,9 @@ public class DatePicker extends FrameLayout {
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName(DatePicker.class.getName());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            info.setClassName(DatePicker.class.getName());
+        }
     }
 
     @Override
@@ -516,15 +517,15 @@ public class DatePicker extends FrameLayout {
         final int spinnerCount = order.length;
         for (int i = 0; i < spinnerCount; i++) {
             switch (order[i]) {
-                case DateFormat.DATE:
+                case 'd':
                     mSpinners.addView(mDaySpinner);
                     setImeOptions(mDaySpinner, spinnerCount, i);
                     break;
-                case DateFormat.MONTH:
+                case 'M':
                     mSpinners.addView(mMonthSpinner);
                     setImeOptions(mMonthSpinner, spinnerCount, i);
                     break;
-                case DateFormat.YEAR:
+                case 'y':
                     mSpinners.addView(mYearSpinner);
                     setImeOptions(mYearSpinner, spinnerCount, i);
                     break;
